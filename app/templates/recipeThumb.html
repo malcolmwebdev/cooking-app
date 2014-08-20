@@ -1,0 +1,17 @@
+<div class="recipe_thumb">
+    <ul>
+        <li>
+            <h4> {{$index+1}}.) {{match.recipeName}}</h4>
+        </li>
+        <li>
+            <a target="_blank" ng-href="#/recipeId/{{match.id}}">
+                <img ng-src="{{match.imageUrlsBySize.90}}">
+            </a>
+        </li>
+        <li>
+            <a target="_blank" ng-href="#/recipeId/{{match.id}}">full recipe</a>
+        </li>
+        {{match.id}}
+        <li>source:{{match.sourceDisplayName}}</li>
+    </ul>
+</div>
