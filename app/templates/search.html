@@ -1,3 +1,17 @@
-<input ng-attr-id="{{dynamic}}" type="text" ng-model="param"/>
-<p>{{param}}</p>
-<div class="btn btn-default" ng-click="addParam({param: param, message: value})">Add {{dynamic}}</div><br/><br/>
+<ul>
+    <li>
+        <input ng-attr-id="{{queryItem}}" type="text" ng-model="param"/>
+    </li>
+    <li>
+        <p>
+            <span>{{queryItem}}: </span>
+            <strong>{{param}}</strong>
+        </p>
+    </li>
+    <li>
+        <div class="btn btn-default" ng-click="addParam({queryItem: queryItem, param: param}); param=''" ng-show="param.length">Add {{queryItem}} item</div>
+    </li>
+    <li>
+        <div class="btn btn-default" ng-click="addParam({queryItem: queryItem, param: param}); param=''" ng-show="param.length">remove {{queryItem}} item</div>
+    </li>
+</ul>

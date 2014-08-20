@@ -14,8 +14,9 @@ angular.module('cookingApp')
     return {
         restrict: "E",
         scope: {
-            dynamic: "@",
-            param:"@"
+            queryItem: "@",
+            param:"@",
+            addParam:"&"
         },
         templateUrl: 'templates/search.html',
 
