@@ -10,17 +10,21 @@
  */
 
 angular.module('cookingApp')
-.directive("search", function() {
+.directive("selectSearch", function() {
     return {
         restrict: "E",
         scope: {
             queryItem: "@",
             queryItemName:"@",
+            options:'@',
             param:"@",
             addParam:"&",
             removeParam:"&"
         },
-        templateUrl: 'templates/search.html',
+        templateUrl: 'templates/selectSearch.html',
 
+        link: function(scope) {
+
+        }
     }
 });

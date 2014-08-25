@@ -1,0 +1,30 @@
+
+<ul>
+    <li>
+        <label for="nutrient-select">Select Nutrient</label>
+        <select ng-attr-id="{{urlQueryItem}}" type="text" ng-model="nutrient" ng-options="option.description for option in {{options}} track by option.val " name="nutrient-select">
+            <option value="">Please select {{queryItemName}}</option>
+        </select>
+    <li>
+        <label for="number">Amount</label>
+        <input ng-model="nutrientNumber" type="number" step="0.5" min="0" name="number"/> grams <span ng-show="nutrient.description == 'Vitamin A, IU'">*</span>
+    </li>
+    <li>
+        <input type="radio" data-ng-model="$parent.minMax" name="minmax" value="min"/>min
+        <input type="radio" data-ng-model="$parent.minMax" name="minmax" value="max"/>max
+        <div class="btn btn-default" ng-click="addNutritionParam({nutrient: nutrient, amount: nutrientNumber, minMax: $parent.minMax}); param=''" >+</div>
+        <div class="btn btn-default" ng-click="removeNutritionParam({nutrient: nutrient, amount: nutrientNumber, minMax: $parent.minMax}); param=''" >-</div>
+    </li>
+
+    </li>
+    <li>
+        <p>
+            <span>{{queryItemName}}: </span>
+            <strong ng-show="$parent.minMax && nutrientNumber && nutrient.description">
+                    Recipes with a {{$parent.minMax}} {{nutrientNumber}} grams of {{nutrient.description}}
+                    <span ng-show="nutrient.description == 'Vitamin A, IU'">*</span>
+            </strong>
+        </p>
+        <p ng-show="nutrient.description == 'Vitamin A, IU'">*All nutrients measure in grams except Vitamin A, which is measured in IU.</p>
+    </li>
+</ul>

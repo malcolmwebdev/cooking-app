@@ -10,17 +10,17 @@
  */
 
 angular.module('cookingApp')
-.directive("search", function() {
+.directive("nutrientSearch", function() {
     return {
         restrict: "E",
         scope: {
             queryItem: "@",
             queryItemName:"@",
             param:"@",
-            addParam:"&",
-            removeParam:"&"
+            addNutritionParam:"&",
+            removeNutritionParam:"&",
+            options:"@"
         },
-        templateUrl: 'templates/search.html',
-
+        templateUrl: 'templates/nutrientSearch.html',
     }
 });

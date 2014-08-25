@@ -1,7 +1,40 @@
 <div class="jumbotron">
   <h1>Cooking App</h1>
 </div>
-<search query-item="test" add-param="addParam(queryItem, param)"></search>
-<search query-item="test2" add-param="addParam(queryItem, param)"></search>
-<search query-item="fob" add-param="addParam(queryItem, param)"></search>
-</div>
+
+<search
+        ng-repeat="Textbox in queryItemsTextbox"
+        query-item-name="{{Textbox.queryItem}}"
+        query-item="{{Textbox.urlQueryItem}}"
+        add-param="addParam(queryItem, param)"
+        remove-param="removeParam(queryItem, param)">
+</search>
+<select-search
+        ng-repeat="select in queryItemsSelect"
+        query-item-name="{{select.queryItem}}"
+        query-item="{{select.queryItem}}"
+        options="{{select.options}}"
+        add-param="addParam(queryItem, param)"
+        remove-param="removeParam(queryItem, param)">
+</select-search>
+
+<nutrient-search
+        query-item-name="{{queryItemNutrition.queryItem}}"
+        query-item="{{queryItemNutrition.queryItem}}"
+        options="{{queryItemNutrition.options}}"
+        add-nutrition-param = "addNutritionParam(nutrient, amount, minMax)"
+        remove-nutrition-param = "removeNutritionParam(nutrient, amount, minMax)">
+</nutrient-search>
+<br/>
+<ul>
+    <li>
+        <div class="btn btn-default" ng-click="" >Clear Recipes Parameters</div>
+    </li>
+    <br/>
+    <li>
+        <div class="btn btn-default" ng-click="" >Get Recipes</div>
+    </li>
+</ul>
+
+
+
