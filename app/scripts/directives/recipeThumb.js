@@ -16,11 +16,7 @@ angular.module('cookingApp')
         controller: function ($scope){
 
         },
-//        scope: {
-//            number: "@",
-//            network: "=",
-//            makeCall: "&"
-//        },
+
         templateUrl: 'templates/recipeThumb.html',
         link: function(scope) {
             scope.networks = ["Verizon", "AT&T", "Sprint"];

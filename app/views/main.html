@@ -1,7 +1,9 @@
 <div class="jumbotron">
   <h1>Cooking App</h1>
 </div>
-
+<p ng-bind-html="awesomeThings.attribution.html">
+    <br/>
+</p>
 <search
         ng-repeat="Textbox in queryItemsTextbox"
         query-item-name="{{Textbox.queryItem}}"
@@ -12,7 +14,7 @@
 <select-search
         ng-repeat="select in queryItemsSelect"
         query-item-name="{{select.queryItem}}"
-        query-item="{{select.queryItem}}"
+        query-item="{{select.urlQueryItem}}"
         options="{{select.options}}"
         add-param="addParam(queryItem, param)"
         remove-param="removeParam(queryItem, param)">
@@ -28,12 +30,14 @@
 <br/>
 <ul>
     <li>
-        <div class="btn btn-default" ng-click="" >Clear Recipes Parameters</div>
+        <div class="btn btn-default" ng-click="getRecipes()" >Get Recipes</div>
     </li>
     <br/>
     <li>
-        <div class="btn btn-default" ng-click="" >Get Recipes</div>
+        <div class="btn btn-default" ng-click="clearRecipes()" >Clear Recipes Search</div>
     </li>
+
+
 </ul>
 
 

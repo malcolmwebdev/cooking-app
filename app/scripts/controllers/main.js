@@ -8,19 +8,18 @@
  * Controller of the cookingApp
  */
 angular.module('cookingApp')
-  .controller('MainCtrl',['$scope','$routeParams','Recipes',  function ($scope, $routeParams, Recipes) {
+  .controller('MainCtrl',['$scope','$routeParams','Recipes','$location','$window',  function ($scope, $routeParams, Recipes, $location, $window) {
       $scope.awesomeThings = Recipes.query();
       $scope.addParam = function(queryItemUrl ,param){
            if(typeof param === 'undefined' || param===''){
              alert('Please input a valid item');
            }else{
              if(queryItemUrl in sessionStorage){
-                sessionStorage[queryItemUrl].push('&'+queryItemUrl+'[]='+param);
+                var sesStorJSON = JSON.parse(sessionStorage.getItem(queryItemUrl));
+                sesStorJSON.push('&'+queryItemUrl+'[]='+param);
+                sessionStorage.setItem(queryItemUrl,JSON.stringify(sesStorJSON))
              }else{
-                 Object.defineProperty(sessionStorage, queryItemUrl, {
-                     writable:true,
-                     value: ['&'+queryItemUrl+'[]='+param]
-                 });
+                sessionStorage.setItem(queryItemUrl,JSON.stringify(['&'+queryItemUrl+'[]='+param]))
              }
            };
       }//end addParam
@@ -30,7 +29,9 @@ angular.module('cookingApp')
                alert('Please input a valid item');
             }else{
                 if(queryItemUrl in sessionStorage){
-                    sessionStorage[queryItemUrl].splice(sessionStorage[queryItemUrl].indexOf(param), 1);
+                    var sesStorJSON = JSON.parse(sessionStorage.getItem(queryItemUrl));
+                    sesStorJSON.splice(sesStorJSON.indexOf(param)-1, 1);
+                    sessionStorage.setItem(queryItemUrl,JSON.stringify(sesStorJSON));
                 }
             };
       };// end removeParam
@@ -39,14 +40,13 @@ angular.module('cookingApp')
              if(typeof nutrient === 'undefined' || typeof amount==='undefined' || typeof minMax==='undefined'){
                   alert('Please input a valid nutrient, amount and select min or max');
              }else{
-                 var query = 'nutrition.'+nutrient.val+'.'+minMax+'='+amount;
+                 var query = '&nutrition.'+nutrient.val+'.'+minMax+'='+amount;
                  if('nutrients' in sessionStorage){
-                    sessionStorage.nutrients.push(query);
+                      var sesStorJSON = JSON.parse(sessionStorage.getItem('nutrients'));
+                      sesStorJSON.push(query);
+                      sessionStorage.setItem('nutrients',JSON.stringify(sesStorJSON));
                  }else{
-                     Object.defineProperty(sessionStorage, 'nutrients', {
-                         writable:true,
-                         value: [query]
-                     });
+                     sessionStorage.setItem('nutrients',JSON.stringify([query]));
                  }
              };
       };
@@ -54,19 +54,37 @@ angular.module('cookingApp')
             if(typeof nutrient === 'undefined' || typeof amount==='undefined' || typeof minMax==='undefined'){
                    alert('Please input a valid nutrient, amount and select min or max');
              }else{
+                   var sesStorJSON = JSON.parse(sessionStorage.getItem('nutrients'));
                    if('nutrients' in sessionStorage){
-                        for(var i=0; sessionStorage.nutrients.length; i++){
-                        	if(sessionStorage.nutrients[i].indexOf(nutrient.val)>0){
-                        		sessionStorage.nutrients.splice(i, 1);
+                        for(var i=0; sesStorJSON.length; i++){
+                        	if(sesStorJSON[i].indexOf(nutrient.val)>-1){
+                           		sesStorJSON.splice(i, 1);
+                           		sessionStorage.setItem('nutrients',JSON.stringify(sesStorJSON));
                         	}
                         }
                    }
              };
 
       };
-      $scope.search = function(){
 
-      }
+      $scope.getRecipes = function(){
+        var urlArray = [];
+        for(var key in sessionStorage){
+        	var sessionItem = JSON.parse(sessionStorage[key]);
+        	for(var item in sessionItem){
+        		urlArray.push(sessionItem[item]);
+        	}
+        }
+        var urlReady = encodeURI(urlArray.toString().replace(/,/g , "")),
+            baseUrl = document.URL,
+            fullRecipeUrl = baseUrl+'query/'+urlReady;
+            $window.location.href = fullRecipeUrl;
+            $window.location.reload(true);
+      };
+
+      $scope.clearRecipes = function(){
+            sessionStorage.clear();
+      };
 
       $scope.queryItemsTextbox = [
         {
@@ -114,15 +132,16 @@ angular.module('cookingApp')
             options:["Main Dishes", "Desserts", "Side Dishes", "Lunch and Snacks", "Appetizers", "Salads", "Breads", "Breakfast and Brunch", "Soups", "Beverages", "Condiments and Sauces", "Cocktails"]
         },
         {
-            queryItem: "excluded holiday",
-            urlQueryItem:"excludedHoliday",
-            options:["Christmas", "Summer", "Thanksgiving", "New Year", "Super Bowl / Game Day", "Halloween", "Hanukkah", "4th of July"]
-        },
-        {
             queryItem: "included holiday",
             urlQueryItem:"includedHoliday",
             options:["Christmas", "Summer", "Thanksgiving", "New Year", "Super Bowl / Game Day", "Halloween", "Hanukkah", "4th of July"]
         },
+        {
+            queryItem: "excluded holiday",
+            urlQueryItem:"excludedHoliday",
+            options:["Christmas", "Summer", "Thanksgiving", "New Year", "Super Bowl / Game Day", "Halloween", "Hanukkah", "4th of July"]
+        },
+
       ];
       $scope.queryItemNutrition = {
             queryItem: "Nutrition Attributes ",

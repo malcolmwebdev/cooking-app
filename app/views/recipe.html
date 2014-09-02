@@ -1,3 +1,30 @@
-{{awesomeThing.name}}<br/><br/>
 
-{{awesomeThing}}
+<h3>{{awesomeThing.name}}</h3>
+<a ng-href="{{awesomeThing.source.sourceRecipeUrl}}">
+     <img ng-src="{{awesomeThing.images[0].imageUrlsBySize.360}}" alt=""/>
+</a>
+<p>Serves: {{awesomeThing.yield}} people.</p>
+<p>Total cooking time: {{awesomeThing.totalTime}} </p>
+<p ng-show="awesomeThing.source.sourceDisplayName">
+    Full Recipe:
+    <a ng-href="{{awesomeThing.source.sourceRecipeUrl}}"> {{awesomeThing.source.sourceDisplayName}}</a>
+</p>
+<iframe ng-src="awesomeThing.source.sourceRecipeUrl"></iframe>
+<!--{{awesomeThing.source.sourceRecipeUrl}}-->
+{{awesomeThing.source.sourceRecipeUrl}}
+<!--<p>-->
+
+    <!--<ul>-->
+        <!--<b>Ingredients</b>-->
+        <!--<li ng-repeat="line in awesomeThing.ingredientLines">-->
+                    <!--{{line}}-->
+        <!--</li>-->
+    <!--</ul>-->
+
+<!--</p>-->
+<p ng-bind-html="awesomeThing.attribution.html">
+    <br/>
+</p>
+<!--<br/><br/> info<br/>-->
+
+<!--{{awesomeThing.attribution.html}}-->
