@@ -3,7 +3,7 @@
         <select ng-attr-id="{{urlQueryItem}}" type="text" ng-model="param" ng-options="option for option in {{options}} ">
             <option value="">Please select {{queryItemName}}</option>
         </select>
-        <div class="btn btn-default" ng-click="addParam({queryItem: queryItem, param: param}); param=''" >+</div>
+        <div class="btn btn-default" ng-click="addParam({queryItem: queryItem, queryItemName: queryItemName, param: param}); param=''" >+</div>
         <div class="btn btn-default" ng-click="removeParam({queryItem: queryItem, param: param}); param=''" >-</div>
     </li>
     <li>

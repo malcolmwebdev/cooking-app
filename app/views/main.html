@@ -8,7 +8,7 @@
         ng-repeat="Textbox in queryItemsTextbox"
         query-item-name="{{Textbox.queryItem}}"
         query-item="{{Textbox.urlQueryItem}}"
-        add-param="addParam(queryItem, param)"
+        add-param="addParam(queryItem, queryItemName, param)"
         remove-param="removeParam(queryItem, param)">
 </search>
 <select-search
@@ -16,7 +16,7 @@
         query-item-name="{{select.queryItem}}"
         query-item="{{select.urlQueryItem}}"
         options="{{select.options}}"
-        add-param="addParam(queryItem, param)"
+        add-param="addParam(queryItem, queryItemName, param)"
         remove-param="removeParam(queryItem, param)">
 </select-search>
 

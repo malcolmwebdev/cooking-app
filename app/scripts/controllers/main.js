@@ -10,16 +10,16 @@
 angular.module('cookingApp')
   .controller('MainCtrl',['$scope','$routeParams','Recipes','$location','$window',  function ($scope, $routeParams, Recipes, $location, $window) {
       $scope.awesomeThings = Recipes.query();
-      $scope.addParam = function(queryItemUrl ,param){
+      $scope.addParam = function(queryItemUrl , queryItemName, param){
            if(typeof param === 'undefined' || param===''){
              alert('Please input a valid item');
            }else{
              if(queryItemUrl in sessionStorage){
                 var sesStorJSON = JSON.parse(sessionStorage.getItem(queryItemUrl));
-                sesStorJSON.push('&'+queryItemUrl+'[]='+param);
+                sesStorJSON.queryItemUrl.push('&'+queryItemUrl+'[]='+param);
                 sessionStorage.setItem(queryItemUrl,JSON.stringify(sesStorJSON))
              }else{
-                sessionStorage.setItem(queryItemUrl,JSON.stringify(['&'+queryItemUrl+'[]='+param]))
+                sessionStorage.setItem(queryItemUrl,JSON.stringify({name:queryItemName,queryItemUrl:['&'+queryItemUrl+'[]='+param]}))
              }
            };
       }//end addParam
@@ -30,7 +30,7 @@ angular.module('cookingApp')
             }else{
                 if(queryItemUrl in sessionStorage){
                     var sesStorJSON = JSON.parse(sessionStorage.getItem(queryItemUrl));
-                    sesStorJSON.splice(sesStorJSON.indexOf(param)-1, 1);
+                    sesStorJSON.queryItemUrl.splice(sesStorJSON.queryItemUrl, 1);
                     sessionStorage.setItem(queryItemUrl,JSON.stringify(sesStorJSON));
                 }
             };
@@ -46,7 +46,7 @@ angular.module('cookingApp')
                       sesStorJSON.push(query);
                       sessionStorage.setItem('nutrients',JSON.stringify(sesStorJSON));
                  }else{
-                     sessionStorage.setItem('nutrients',JSON.stringify([query]));
+                     sessionStorage.setItem('nutrients',JSON.stringify({name:'Selected Nutrients',nutrients:[query]}));
                  }
              };
       };
@@ -56,9 +56,9 @@ angular.module('cookingApp')
              }else{
                    var sesStorJSON = JSON.parse(sessionStorage.getItem('nutrients'));
                    if('nutrients' in sessionStorage){
-                        for(var i=0; sesStorJSON.length; i++){
-                        	if(sesStorJSON[i].indexOf(nutrient.val)>-1){
-                           		sesStorJSON.splice(i, 1);
+                        for(var i=0; sesStorJSON.nutrients.length; i++){
+                        	if(sesStorJSON.nutrients[i].indexOf(nutrient.val)>-1){
+                           		sesStorJSON.nutrients.splice(i, 1);
                            		sessionStorage.setItem('nutrients',JSON.stringify(sesStorJSON));
                         	}
                         }
@@ -71,8 +71,9 @@ angular.module('cookingApp')
         var urlArray = [];
         for(var key in sessionStorage){
         	var sessionItem = JSON.parse(sessionStorage[key]);
-        	for(var item in sessionItem){
-        		urlArray.push(sessionItem[item]);
+
+        	for(var item in sessionItem.queryItemUrl){
+        		urlArray.push(sessionItem.queryItemUrl[item]);
         	}
         }
         var urlReady = encodeURI(urlArray.toString().replace(/,/g , "")),
@@ -88,56 +89,56 @@ angular.module('cookingApp')
 
       $scope.queryItemsTextbox = [
         {
-            queryItem:"included ingredient",
+            queryItem:"Included Ingredients",
             urlQueryItem:"allowedIngredient"
         },
         {
-            queryItem:"excluded ingredient",
+            queryItem:"Excluded Ingredients",
             urlQueryItem:"excludedIngredient"
         },
         {
-            queryItem:"max cooking time (in seconds)",
+            queryItem:"Max Cooking Time (in seconds)",
             urlQueryItem:"maxTotalTimeInSeconds"
         },
       ];
       $scope.queryItemsSelect = [
         {
-            queryItem: "allergy",
+            queryItem: "Allergy",
             urlQueryItem:"allowedAllergy",
             options:["Dairy", "Egg", "Gluten", "Peanut", "Seafood", "Sesame", "Soy", "Sulfite", "Tree Nut", "Wheat"]
         },
         {
-            queryItem: "diet",
+            queryItem: "Diet",
             urlQueryItem:"allowedDiet",
             options:["Lacto vegetarian", "Ovo vegetarian", "Pescetarian", "Vegan", "Vegetarian"]
         },
         {
-            queryItem: "included cuisine",
+            queryItem: "Included Cuisine",
             urlQueryItem:"allowedCuisine",
             options:["American", "Italian", "Asian", "Mexican", "Southern & Soul Food", "French", "Southwestern", "Barbecue", "Indian", "Chinese", "Cajun & Creole", "English", "Mediterranean", "Greek", "Spanish", "German", "Thai", "Moroccan", "Irish", "Japanese", "Cuban",  "Swedish", "Hungarian", "Portugese"]
         },
         {
-            queryItem: "excluded cuisine",
+            queryItem: "Excluded Cuisine",
             urlQueryItem:"excludedCuisine",
             options:["American", "Italian", "Asian", "Mexican", "Southern & Soul Food", "French", "Southwestern", "Barbecue", "Indian", "Chinese", "Cajun & Creole", "English", "Mediterranean", "Greek", "Spanish", "German", "Thai", "Moroccan", "Irish", "Japanese", "Cuban",  "Swedish", "Hungarian", "Portugese"]
         },
         {
-            queryItem: "allowed course",
+            queryItem: "Allowed Course",
             urlQueryItem:"allowedCourse",
             options:["Main Dishes", "Desserts", "Side Dishes", "Lunch and Snacks", "Appetizers", "Salads", "Breads", "Breakfast and Brunch", "Soups", "Beverages", "Condiments and Sauces", "Cocktails"]
         },
         {
-            queryItem: "excluded course",
+            queryItem: "Excluded Course",
             urlQueryItem:"excludedCourse",
             options:["Main Dishes", "Desserts", "Side Dishes", "Lunch and Snacks", "Appetizers", "Salads", "Breads", "Breakfast and Brunch", "Soups", "Beverages", "Condiments and Sauces", "Cocktails"]
         },
         {
-            queryItem: "included holiday",
+            queryItem: "Included Holiday",
             urlQueryItem:"includedHoliday",
             options:["Christmas", "Summer", "Thanksgiving", "New Year", "Super Bowl / Game Day", "Halloween", "Hanukkah", "4th of July"]
         },
         {
-            queryItem: "excluded holiday",
+            queryItem: "Excluded Holiday",
             urlQueryItem:"excludedHoliday",
             options:["Christmas", "Summer", "Thanksgiving", "New Year", "Super Bowl / Game Day", "Halloween", "Hanukkah", "4th of July"]
         },
@@ -206,4 +207,6 @@ angular.module('cookingApp')
 
             ]
        }
+        sessionStorage.clear();
   }]);
+
