@@ -207,6 +207,5 @@ angular.module('cookingApp')
 
             ]
        }
-        sessionStorage.clear();
   }]);
 

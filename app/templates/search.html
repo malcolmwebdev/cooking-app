@@ -1,8 +1,8 @@
-<ul>
+<ul ng-attr-id="{{queryItem}}">
     <li>
-        <input ng-attr-id="{{queryItem}}" type="text" ng-model="param"/>
-        <div class="btn btn-default" ng-click="addParam({queryItem: queryItem, queryItemName: queryItemName, param: param}); param=''" >+</div>
-        <div class="btn btn-default" ng-click="removeParam({queryItem: queryItem, param: param}); param=''" >-</div>
+        <input type="text" ng-model="param"/>
+        <div class="btn btn-default add-button" ng-click="addParam({queryItem: queryItem, queryItemName: queryItemName, param: param}); param=''" >+</div>
+        <div class="btn btn-default delete-button" ng-click="removeParam({queryItem: queryItem, param: param}); param=''" >-</div>
     </li>
     <li>
         <p>

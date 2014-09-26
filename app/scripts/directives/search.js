@@ -10,7 +10,7 @@
  */
 
 angular.module('cookingApp')
-.directive("search", function() {
+.directive("search", function($timeout) {
     return {
         restrict: "E",
         scope: {
@@ -21,6 +21,5 @@ angular.module('cookingApp')
             removeParam:"&"
         },
         templateUrl: 'templates/search.html',
-
     }
 });

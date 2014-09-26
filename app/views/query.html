@@ -1,10 +1,15 @@
 
 
 <div class="row marketing">
-    <p ng-bind-html="awesomeThings.attribution.html">
-        <br/>
-    </p>
-    <p ng-repeat="match in awesomeThings.matches">
+    <div class="jumbotron">
+        <h1>Cooking App</h1>
+        <p ng-bind-html="awesomeThings.attribution.html">
+            <br/>
+        </p>
+        <query-string></query-string>
+    </div>
+    <a href="/">Return to queries</a>
+    <p ng-repeat="match in awesomeThings.matches" class="fade">
         <recipe></recipe>
     </p>
 </div>

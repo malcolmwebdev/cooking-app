@@ -1,9 +1,22 @@
+
 <div class="jumbotron">
   <h1>Cooking App</h1>
+  <p ng-bind-html="awesomeThings.attribution.html">
+      <br/>
+  </p>
+  <query-string></query-string>
 </div>
-<p ng-bind-html="awesomeThings.attribution.html">
+<br/>
+<ul>
+    <li>
+        <div class="btn btn-default" ng-click="getRecipes()" >Get Recipes</div>
+    </li>
     <br/>
-</p>
+    <li>
+        <div class="btn btn-default" ng-click="clearRecipes()" >Clear Recipes Search</div>
+    </li>
+</ul>
+
 <search
         ng-repeat="Textbox in queryItemsTextbox"
         query-item-name="{{Textbox.queryItem}}"
@@ -36,8 +49,6 @@
     <li>
         <div class="btn btn-default" ng-click="clearRecipes()" >Clear Recipes Search</div>
     </li>
-
-
 </ul>
 
 
